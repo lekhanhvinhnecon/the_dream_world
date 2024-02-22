@@ -1,10 +1,14 @@
+/*Attention:
+	The source code is merged from the files in the project into one file that runs independently.
+*/
+
 #include <iostream>
-#include <conio.h>
-#include <windows.h>
 #include <string>
-#include "TicTacToe.h"
+#include <windows.h>
+
 using namespace std;
 
+// Khai bao lop Player 
 class Player {
 private:
 	int luotChoi;
@@ -13,13 +17,16 @@ public:
 	int getLuotChoi();
 	bool kiemTra(Player* p[], int n, int key, int size);
 };
-class XuLySuKien : public Player {
+
+// Khai bao lop Game_Control ke thua cong khai lop Player
+class Game_Control :
+    public Player
+{
 private:
 	int data[100];
 	int lenght;
 public:
-	// Xu Ly
-	XuLySuKien();
+	Game_Control();
 	void Set(Player* value[], int n);
 	void ManHinhCho(int height, int width);
 	void VeBanCo(int height, int width, int size);
@@ -27,30 +34,25 @@ public:
 	int Tien_KetQua_3(int data_sub[], int lenght, int size);
 	int Tien_KetQua(int data_sub[], int lenght, int size);
 	int KetQua(int size);
-	void GiaiPhong(Player *value[], int n);
+	void BroardSize(int size);
+	void GiaiPhong(Player* value[], int n);
 };
 
-// HienThiTrongMain
-void BroardSize(int size);
+// Ham toan cuc 
 void ErrorMessage_Future();
 void ErrorMessage_1();
 void ErrorMessage_2();
 void ErrorMessage_3();
 void MenuGame();
-void Light(string str);
+void Light(std::string str);
 bool GameMode();
 void ClearScreen();
 int FuncLab(int height, int width, int flag);
+
 int main() {
-/*
-	if (FuncLab(31, 51, 5) == 1) {
-		cout << "Thang";
-	}
-	else {
-		cout << "Hoa";
-	}
-*/	 
 	int option;
+	Game_Control *gc = new Game_Control();
+
 	while (true) {
 		MenuGame();
 		cout << "Xin moi nhap lua chon: ";
@@ -62,7 +64,7 @@ int main() {
 		case 1:
 			if (GameMode() == true) {
 				ClearScreen();
-				BroardSize(3);
+				gc->BroardSize(3);
 				ErrorMessage_3();
 			}
 			else {
@@ -72,7 +74,7 @@ int main() {
 		case 2:
 			if (GameMode() == true) {
 				ClearScreen();
-				BroardSize(5);
+				gc->BroardSize(5);
 				ErrorMessage_3();
 			}
 			else {
@@ -82,7 +84,7 @@ int main() {
 		case 3:
 			if (GameMode() == true) {
 				ClearScreen();
-				BroardSize(7);
+				gc->BroardSize(7);
 				ErrorMessage_3();
 			}
 			else {
@@ -96,18 +98,18 @@ int main() {
 			ErrorMessage_1();
 		}
 	}
-	
+
 	return 0;
 }
-// class Player
+// Player 
 void Player::Nhap_DuLieu() {
-	cin >> luotChoi;
+	std::cin >> luotChoi;
 }
 int Player::getLuotChoi() {
 	return luotChoi;
 }
 bool Player::kiemTra(Player* p[], int n, int key, int flags) {
-	if (key >= flags*flags) {
+	if (key >= flags * flags) {
 		return false;
 	}
 	else {
@@ -117,21 +119,21 @@ bool Player::kiemTra(Player* p[], int n, int key, int flags) {
 			}
 		}
 	}
-	
+
 	return true;
-}
-// Class XuLySuKien => Xu Ly
-XuLySuKien::XuLySuKien() {
+} 
+// Game_Control
+Game_Control::Game_Control() {
 	data[0] = -1;
 	lenght = 1;
 }
-void XuLySuKien::Set(Player* value[], int n) {
+void Game_Control::Set(Player* value[], int n) {
 	lenght = n;
 	for (int i = 0; i < lenght; i++) {
 		data[i] = value[i]->getLuotChoi();
 	}
 }
-void XuLySuKien::SapXep_MangCon(int data_sub[], int n) {
+void Game_Control::SapXep_MangCon(int data_sub[], int n) {
 	int temp;
 	if (lenght > 1) {
 		for (int i = 0; i < n - 1; i++) {
@@ -145,11 +147,11 @@ void XuLySuKien::SapXep_MangCon(int data_sub[], int n) {
 		}
 	}
 }
-void XuLySuKien::ManHinhCho(int height, int width) {
+void Game_Control::ManHinhCho(int height, int width) {
 	int k = 0;
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
-			if(k < 10){
+			if (k < 10) {
 				if (i == 0 || i % 6 == 0 || j == 0 || j % 10 == 0) {
 					cout << "*";
 				}
@@ -158,7 +160,7 @@ void XuLySuKien::ManHinhCho(int height, int width) {
 				}
 				else {
 					cout << " ";
-				}			
+				}
 			}
 			else {
 				if (i == 0 || i % 6 == 0 || j == 0 || j % 10 == 0) {
@@ -176,7 +178,7 @@ void XuLySuKien::ManHinhCho(int height, int width) {
 		cout << endl;
 	}
 }
-void XuLySuKien::VeBanCo(int height, int width, int size) {
+void Game_Control::VeBanCo(int height, int width, int size) {
 	int viTri = 0, count = 0, player_1[50], player_2[50], count_1 = 0, count_2 = 0; player_1[0] = -1, player_2[0] = -1;
 	for (int i = 0; i < lenght; i++) {
 		if (i % 2 == 0) {
@@ -220,7 +222,7 @@ void XuLySuKien::VeBanCo(int height, int width, int size) {
 		cout << endl;
 	}
 }
-int XuLySuKien::Tien_KetQua_3(int data_sub[], int lenght, int size) {
+int Game_Control::Tien_KetQua_3(int data_sub[], int lenght, int size) {
 	int cheo_huyen, cheo_sac, doc, ngang;
 	for (int i = 0; i < lenght; i++) {
 		cheo_huyen = 0, cheo_sac = 0, doc = 0, ngang = 0;
@@ -261,7 +263,7 @@ int XuLySuKien::Tien_KetQua_3(int data_sub[], int lenght, int size) {
 	}
 	return 0;
 }
-int XuLySuKien::Tien_KetQua(int data_sub[], int lenght, int size) {
+int Game_Control::Tien_KetQua(int data_sub[], int lenght, int size) {
 	int cheo_huyen, cheo_sac, doc, ngang;
 	for (int i = 0; i < lenght; i++) {
 		cheo_huyen = 0, cheo_sac = 0, doc = 0, ngang = 0;
@@ -304,8 +306,8 @@ int XuLySuKien::Tien_KetQua(int data_sub[], int lenght, int size) {
 	}
 	return 0;
 }
-int XuLySuKien::KetQua(int size) {
-	if (lenght <= size*size) {
+int Game_Control::KetQua(int size) {
+	if (lenght < size * size) {
 		int player_1[50], player_2[50], count_1 = 0, count_2 = 0; player_1[0] = -1, player_2[0] = -1;
 		for (int i = 0; i < lenght; i++) {
 			if (i % 2 == 0) {
@@ -341,25 +343,23 @@ int XuLySuKien::KetQua(int size) {
 				return 0;
 			}
 		}
-		
+
 	}
 	else {
 		return 3;
 	}
 }
-void XuLySuKien::GiaiPhong(Player* value[], int n) {
+void Game_Control::GiaiPhong(Player* value[], int n) {
 	for (int i = 0; i < n; i++) {
 		delete value[i];
 	}
 }
-// Su dung trong Main
-void BroardSize(int size) {
+void Game_Control::BroardSize(int size) {
 	int i = 0, height = size * 5 + size + 1, width = size * 9 + size + 1;
-	Player** p = new Player*[size * size];
-	XuLySuKien* xlsk = new XuLySuKien();
-	while (true) {
+	Player** p = new Player * [size * size];
+	while (i < size*size) {
 		if (i == 0) {
-			xlsk->ManHinhCho(height, width);
+			ManHinhCho(height, width);
 		}
 		p[i] = new Player();
 		if (i % 2 == 0) {
@@ -370,23 +370,23 @@ void BroardSize(int size) {
 			cout << "\033[1;34mPlayer O\033[0m: ";
 			p[i]->Nhap_DuLieu();
 		}
-		xlsk->Set(p, i + 1);
+		Set(p, i + 1);
 		if (!p[i]->kiemTra(p, i, p[i]->getLuotChoi(), size)) {
 			ErrorMessage_2();
 		}
 		else {
 			ClearScreen();
-			xlsk->VeBanCo(height, width, size);
-			if (xlsk->KetQua(size) == 1) {
+			VeBanCo(height, width, size);
+			if (KetQua(size) == 1) {
 				cout << "X la nguoi chien thang." << endl;
 				break;
 			}
-			else if (xlsk->KetQua(size) == 2) {
+			else if (KetQua(size) == 2) {
 				cout << "O la nguoi chien thang." << endl;
 				break;
 			}
-			else if (xlsk->KetQua(size) == 3) {
-				cout << "Ket qua hoa.";
+			else if (KetQua(size) == 3) {
+				cout << "Ket qua hoa." << endl;
 				break;
 			}
 			else {
@@ -394,7 +394,9 @@ void BroardSize(int size) {
 			}
 		}
 	}
+	GiaiPhong(p, i);
 }
+// Ham toan cuc 
 void ClearScreen() {
 	cout << "\033[2J\033[1;1H";
 }
@@ -503,15 +505,15 @@ bool GameMode() {
 
 }
 int FuncLab(int height, int width, int size) {
-	int data_sub[] = {0,5,10,15,20}, lenght = 5, cheo_huyen, cheo_sac, doc, ngang;
-	for (int i = 0; i < lenght-3; i++) {
+	int data_sub[] = { 0,5,10,15,20 }, lenght = 5, cheo_huyen, cheo_sac, doc, ngang;
+	for (int i = 0; i < lenght - 3; i++) {
 		cheo_huyen = 1, cheo_sac = 1, doc = 1, ngang = 1;
-		for (int j = i+1; j < lenght; j++) {
+		for (int j = i + 1; j < lenght; j++) {
 			// Tinh duong ngang
 			if (data_sub[i] == data_sub[j] - ngang) {
 				cout << "ngang - i: " << data_sub[i] << ", j:" << data_sub[j] << ", flags: " << ngang << endl;
 				ngang++;
-				
+
 				if ((data_sub[j] + 1) % size == 0 || (data_sub[i] + 1) % size == 0) {
 					cout << "yes" << endl;
 					if (ngang < 5) {
@@ -520,7 +522,7 @@ int FuncLab(int height, int width, int size) {
 					}
 				}
 				if (ngang == 5) {
-					cout << "flags: " << ngang << endl ;
+					cout << "flags: " << ngang << endl;
 					return 1;
 				}
 			}
@@ -534,14 +536,14 @@ int FuncLab(int height, int width, int size) {
 				}
 			}
 			// Tinh duong cheo dau huyen
-			if (data_sub[i] == data_sub[j]+(size+1)*2 || data_sub[i] == data_sub[j]+(size+1) || data_sub[i] == data_sub[j]-(size+1)*2 || data_sub[i] == data_sub[j]-(size+1)) {
+			if (data_sub[i] == data_sub[j] + (size + 1) * 2 || data_sub[i] == data_sub[j] + (size + 1) || data_sub[i] == data_sub[j] - (size + 1) * 2 || data_sub[i] == data_sub[j] - (size + 1)) {
 				cheo_huyen++;
 				if (cheo_huyen == 4) {
 					return 1;
 				}
 			}
 			// Tinh duong cheo dau sac
-			if (data_sub[i] == data_sub[j] + size*2-2 || data_sub[i] == data_sub[j] + size-1 ||  data_sub[i] == data_sub[j] - size+1 || data_sub[i] == data_sub[j] - size*2+2) {
+			if (data_sub[i] == data_sub[j] + size * 2 - 2 || data_sub[i] == data_sub[j] + size - 1 || data_sub[i] == data_sub[j] - size + 1 || data_sub[i] == data_sub[j] - size * 2 + 2) {
 				cheo_sac++;
 				cout << "i: " << data_sub[i] << ", j:" << data_sub[j] << endl;
 				if (data_sub[j] % size == 0 || data_sub[i] % size == 0) {

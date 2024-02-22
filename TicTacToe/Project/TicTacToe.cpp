@@ -1,7 +1,10 @@
+#include "TicTacToe.h"
 #include <string>
 #include <iostream>
 #include <windows.h>
+
 using namespace std;
+
 void ClearScreen() {
 	cout << "\033[2J\033[1;1H";
 }
@@ -110,15 +113,15 @@ bool GameMode() {
 
 }
 int FuncLab(int height, int width, int size) {
-	int data_sub[] = {0,5,10,15,20}, lenght = 5, cheo_huyen, cheo_sac, doc, ngang;
-	for (int i = 0; i < lenght-3; i++) {
+	int data_sub[] = { 0,5,10,15,20 }, lenght = 5, cheo_huyen, cheo_sac, doc, ngang;
+	for (int i = 0; i < lenght - 3; i++) {
 		cheo_huyen = 1, cheo_sac = 1, doc = 1, ngang = 1;
-		for (int j = i+1; j < lenght; j++) {
+		for (int j = i + 1; j < lenght; j++) {
 			// Tinh duong ngang
 			if (data_sub[i] == data_sub[j] - ngang) {
 				cout << "ngang - i: " << data_sub[i] << ", j:" << data_sub[j] << ", flags: " << ngang << endl;
 				ngang++;
-				
+
 				if ((data_sub[j] + 1) % size == 0 || (data_sub[i] + 1) % size == 0) {
 					cout << "yes" << endl;
 					if (ngang < 5) {
@@ -127,7 +130,7 @@ int FuncLab(int height, int width, int size) {
 					}
 				}
 				if (ngang == 5) {
-					cout << "flags: " << ngang << endl ;
+					cout << "flags: " << ngang << endl;
 					return 1;
 				}
 			}
@@ -141,14 +144,14 @@ int FuncLab(int height, int width, int size) {
 				}
 			}
 			// Tinh duong cheo dau huyen
-			if (data_sub[i] == data_sub[j]+(size+1)*2 || data_sub[i] == data_sub[j]+(size+1) || data_sub[i] == data_sub[j]-(size+1)*2 || data_sub[i] == data_sub[j]-(size+1)) {
+			if (data_sub[i] == data_sub[j] + (size + 1) * 2 || data_sub[i] == data_sub[j] + (size + 1) || data_sub[i] == data_sub[j] - (size + 1) * 2 || data_sub[i] == data_sub[j] - (size + 1)) {
 				cheo_huyen++;
 				if (cheo_huyen == 4) {
 					return 1;
 				}
 			}
 			// Tinh duong cheo dau sac
-			if (data_sub[i] == data_sub[j] + size*2-2 || data_sub[i] == data_sub[j] + size-1 ||  data_sub[i] == data_sub[j] - size+1 || data_sub[i] == data_sub[j] - size*2+2) {
+			if (data_sub[i] == data_sub[j] + size * 2 - 2 || data_sub[i] == data_sub[j] + size - 1 || data_sub[i] == data_sub[j] - size + 1 || data_sub[i] == data_sub[j] - size * 2 + 2) {
 				cheo_sac++;
 				cout << "i: " << data_sub[i] << ", j:" << data_sub[j] << endl;
 				if (data_sub[j] % size == 0 || data_sub[i] % size == 0) {
